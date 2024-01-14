@@ -1,6 +1,5 @@
 #include "../rb_tree.h"
 
-
 void rotateLeft(RB_Tree *tree, RB_Node *x)
 {
     RB_Node *y = x->right;
@@ -19,7 +18,6 @@ void rotateLeft(RB_Tree *tree, RB_Node *x)
         if (x == x->parent->left)
         {
             x->parent->left = y;
-
         }
         else
         {

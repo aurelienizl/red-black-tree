@@ -1,16 +1,22 @@
 #include "../rb_tree.h"
 
-// See https://www.codesdope.com/course/data-structures-red-black-trees-deletion/
+// See
+// https://www.codesdope.com/course/data-structures-red-black-trees-deletion/
 
-/* deleteFixup function is used to restore red-black tree properties after a node deletion */
-static void deleteFixup(RB_Tree *tree, RB_Node *x) {
-    while (x != tree->root && x->color == BLACK) {
+/* deleteFixup function is used to restore red-black tree properties after a
+ * node deletion */
+static void deleteFixup(RB_Tree *tree, RB_Node *x)
+{
+    while (x != tree->root && x->color == BLACK)
+    {
         // Case when x is a left child
-        if (x == x->parent->left) {
+        if (x == x->parent->left)
+        {
             RB_Node *w = x->parent->right; // sibling of x
 
             // Case 1: x's sibling w is red
-            if (w->color == RED) {
+            if (w->color == RED)
+            {
                 w->color = BLACK;
                 x->parent->color = RED;
                 rotateLeft(tree, x->parent);
@@ -18,12 +24,16 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x) {
             }
 
             // Case 2: Both of w's children are black
-            if (w->left->color == BLACK && w->right->color == BLACK) {
+            if (w->left->color == BLACK && w->right->color == BLACK)
+            {
                 w->color = RED;
                 x = x->parent;
-            } else {
+            }
+            else
+            {
                 // Case 3: w's right child is black
-                if (w->right->color == BLACK) {
+                if (w->right->color == BLACK)
+                {
                     w->left->color = BLACK;
                     w->color = RED;
                     rotateRight(tree, w);
@@ -36,22 +46,29 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x) {
                 rotateLeft(tree, x->parent);
                 x = tree->root;
             }
-        } else {
+        }
+        else
+        {
             // Mirror cases when x is a right child
             RB_Node *w = x->parent->left;
 
-            if (w->color == RED) {
+            if (w->color == RED)
+            {
                 w->color = BLACK;
                 x->parent->color = RED;
                 rotateRight(tree, x->parent);
                 w = x->parent->left;
             }
 
-            if (w->right->color == BLACK && w->left->color == BLACK) {
+            if (w->right->color == BLACK && w->left->color == BLACK)
+            {
                 w->color = RED;
                 x = x->parent;
-            } else {
-                if (w->left->color == BLACK) {
+            }
+            else
+            {
+                if (w->left->color == BLACK)
+                {
                     w->right->color = BLACK;
                     w->color = RED;
                     rotateLeft(tree, w);
@@ -69,50 +86,67 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x) {
 }
 
 /* deleteNode function removes a node from the red-black tree */
-void rb_delete(RB_Tree *tree, RB_Node *z) {
+void rb_delete(RB_Tree *tree, RB_Node *z)
+{
     RB_Node *x, *y;
 
     // Return if the node to delete is NULL or tree's sentinel node
-    if (!z || z == &tree->nil) {
+    if (!z || z == &tree->nil)
+    {
         return;
     }
 
     // Determine the node y to splice out, which is either z or its successor
-    if (z->left == &tree->nil || z->right == &tree->nil) {
+    if (z->left == &tree->nil || z->right == &tree->nil)
+    {
         y = z;
-    } else {
+    }
+    else
+    {
         y = z->right;
-        while (y->left != &tree->nil) {
+        while (y->left != &tree->nil)
+        {
             y = y->left;
         }
     }
 
     // x is y's only child
-    if (y->left != &tree->nil) {
+    if (y->left != &tree->nil)
+    {
         x = y->left;
-    } else {
+    }
+    else
+    {
         x = y->right;
     }
 
     // Remove y from the parent chain
     x->parent = y->parent;
-    if (y->parent) {
-        if (y == y->parent->left) {
+    if (y->parent)
+    {
+        if (y == y->parent->left)
+        {
             y->parent->left = x;
-        } else {
+        }
+        else
+        {
             y->parent->right = x;
         }
-    } else {
+    }
+    else
+    {
         tree->root = x;
     }
 
     // If y is a copy of z (successor case), transfer z's data to y
-    if (y != z) {
+    if (y != z)
+    {
         z->data = y->data;
     }
 
     // Fix-up any violations of red-black properties
-    if (y->color == BLACK) {
+    if (y->color == BLACK)
+    {
         deleteFixup(tree, x);
     }
 

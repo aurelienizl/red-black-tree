@@ -39,7 +39,11 @@ typedef int T;
  * @brief Color of a node
  * @note This enum is NOT user specific
  */
-typedef enum { BLACK, RED } RB_Color;
+typedef enum
+{
+    BLACK,
+    RED
+} RB_Color;
 
 /**
  * @brief Node of the red black tree
@@ -50,12 +54,13 @@ typedef enum { BLACK, RED } RB_Color;
  * @param data Data stored in the node
  * @note This struct is NOT user specific
  */
-typedef struct RB_Node_ {
-  struct RB_Node_ *left;
-  struct RB_Node_ *right;
-  struct RB_Node_ *parent;
-  RB_Color color;
-  T data;
+typedef struct RB_Node_
+{
+    struct RB_Node_ *left;
+    struct RB_Node_ *right;
+    struct RB_Node_ *parent;
+    RB_Color color;
+    T data;
 } RB_Node;
 
 /**
@@ -66,9 +71,10 @@ typedef struct RB_Node_ {
  * @note The nil node is used to avoid special cases when a node has no child or
  * no parent
  */
-typedef struct RB_Tree_ {
-  RB_Node *root;
-  RB_Node nil;
+typedef struct RB_Tree_
+{
+    RB_Node *root;
+    RB_Node nil;
 } RB_Tree;
 
 // Functions

@@ -11,7 +11,8 @@ RB_Node *rb_find(RB_Tree *tree, T data)
         }
         else
         {
-            current = compLT(data, current->data) ? current->left : current->right;
+            current =
+                compLT(data, current->data) ? current->left : current->right;
         }
     }
     return (0);

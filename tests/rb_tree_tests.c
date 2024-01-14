@@ -501,7 +501,7 @@ Test(rb_delete, should_delete_a_node_from_the_tree_3)
     cr_assert_eq(tree->root->data, 84);
     cr_assert_eq(tree->root->left->data, 21);
     cr_assert_eq(tree->root->right, &tree->nil);
-    
+
     rb_tree_destroy(tree);
 }
 
@@ -523,7 +523,7 @@ Test(rb_delete, should_delete_a_node_from_the_tree_4)
     cr_assert_eq(tree->root->data, 42);
     cr_assert_eq(tree->root->left, &tree->nil);
     cr_assert_eq(tree->root->right->data, 84);
-    
+
     rb_tree_destroy(tree);
 }
 
@@ -555,8 +555,6 @@ Test(rb_delete, should_delete_a_node_from_the_tree_5)
     (void)node10;
 
     rb_delete(tree, node2);
-
-    rb_todot(tree, "rb_tree_delete_5.dot");
 
     cr_assert_eq(tree->root->data, 4);
     cr_assert_eq(tree->root->left->data, 2);
@@ -661,4 +659,3 @@ Test(random_operations, should_insert_and_delete_randomly_1000)
     rb_tree_destroy(tree);
     free(values);
 }
-

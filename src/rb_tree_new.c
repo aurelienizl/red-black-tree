@@ -18,4 +18,3 @@ RB_Tree *rb_tree_new(void)
 
     return tree;
 }
-
