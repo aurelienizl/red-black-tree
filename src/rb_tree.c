@@ -1,6 +1,6 @@
 #include "../rb_tree.h"
 
-void generateDot(RB_Tree *tree, RB_Node *node, FILE *fp)
+static void generateDot(RB_Tree *tree, RB_Node *node, FILE *fp)
 {
     if (node == &tree->nil)
         return;
@@ -19,8 +19,13 @@ void generateDot(RB_Tree *tree, RB_Node *node, FILE *fp)
     generateDot(tree, node->right, fp);
 }
 
-void rb_todot(RB_Tree *tree, char *filename)
+void rb_todot(RB_Tree *tree, const char *filename)
 {
+    if (!tree || !filename)
+    {
+        return;
+    }
+
     FILE *fp = fopen(filename, "w");
     if (!fp)
         return;

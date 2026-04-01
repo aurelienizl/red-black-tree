@@ -1,4 +1,4 @@
-#include "../rb_tree.h"
+#include "rb_tree_internal.h"
 
 // See
 // https://www.codesdope.com/course/data-structures-red-black-trees-deletion/
@@ -19,7 +19,7 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x)
             {
                 w->color = BLACK;
                 x->parent->color = RED;
-                rotateLeft(tree, x->parent);
+                rb_rotate_left(tree, x->parent);
                 w = x->parent->right;
             }
 
@@ -36,14 +36,14 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x)
                 {
                     w->left->color = BLACK;
                     w->color = RED;
-                    rotateRight(tree, w);
+                    rb_rotate_right(tree, w);
                     w = x->parent->right;
                 }
                 // Case 4: w's right child is red
                 w->color = x->parent->color;
                 x->parent->color = BLACK;
                 w->right->color = BLACK;
-                rotateLeft(tree, x->parent);
+                rb_rotate_left(tree, x->parent);
                 x = tree->root;
             }
         }
@@ -56,7 +56,7 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x)
             {
                 w->color = BLACK;
                 x->parent->color = RED;
-                rotateRight(tree, x->parent);
+                rb_rotate_right(tree, x->parent);
                 w = x->parent->left;
             }
 
@@ -71,13 +71,13 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x)
                 {
                     w->right->color = BLACK;
                     w->color = RED;
-                    rotateLeft(tree, w);
+                    rb_rotate_left(tree, w);
                     w = x->parent->left;
                 }
                 w->color = x->parent->color;
                 x->parent->color = BLACK;
                 w->left->color = BLACK;
-                rotateRight(tree, x->parent);
+                rb_rotate_right(tree, x->parent);
                 x = tree->root;
             }
         }
@@ -89,6 +89,11 @@ static void deleteFixup(RB_Tree *tree, RB_Node *x)
 void rb_delete(RB_Tree *tree, RB_Node *z)
 {
     RB_Node *x, *y;
+
+    if (!tree)
+    {
+        return;
+    }
 
     // Return if the node to delete is NULL or tree's sentinel node
     if (!z || z == &tree->nil)
@@ -152,4 +157,13 @@ void rb_delete(RB_Tree *tree, RB_Node *z)
 
     // Free the memory of the spliced-out node
     free(y);
+
+    if (tree->root == &tree->nil)
+    {
+        tree->nil.parent = &tree->nil;
+    }
+    else
+    {
+        tree->root->parent = NULL;
+    }
 }

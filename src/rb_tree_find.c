@@ -2,6 +2,11 @@
 
 RB_Node *rb_find(RB_Tree *tree, T data)
 {
+    if (!tree)
+    {
+        return NULL;
+    }
+
     RB_Node *current = tree->root;
     while (current != &tree->nil)
     {
@@ -15,5 +20,5 @@ RB_Node *rb_find(RB_Tree *tree, T data)
                 compLT(data, current->data) ? current->left : current->right;
         }
     }
-    return (0);
+    return NULL;
 }

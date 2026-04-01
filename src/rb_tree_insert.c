@@ -1,4 +1,4 @@
-#include "../rb_tree.h"
+#include "rb_tree_internal.h"
 
 static void insertFixup(RB_Tree *tree, RB_Node *x)
 {
@@ -19,12 +19,12 @@ static void insertFixup(RB_Tree *tree, RB_Node *x)
                 if (x == x->parent->right)
                 {
                     x = x->parent;
-                    rotateLeft(tree, x);
+                    rb_rotate_left(tree, x);
                 }
 
                 x->parent->color = BLACK;
                 x->parent->parent->color = RED;
-                rotateRight(tree, x->parent->parent);
+                rb_rotate_right(tree, x->parent->parent);
             }
         }
         else
@@ -42,11 +42,11 @@ static void insertFixup(RB_Tree *tree, RB_Node *x)
                 if (x == x->parent->left)
                 {
                     x = x->parent;
-                    rotateRight(tree, x);
+                    rb_rotate_right(tree, x);
                 }
                 x->parent->color = BLACK;
                 x->parent->parent->color = RED;
-                rotateLeft(tree, x->parent->parent);
+                rb_rotate_left(tree, x->parent->parent);
             }
         }
     }
@@ -56,6 +56,11 @@ static void insertFixup(RB_Tree *tree, RB_Node *x)
 RB_Node *rb_insert(RB_Tree *tree, T data)
 {
     RB_Node *current, *parent, *x;
+
+    if (!tree)
+    {
+        return NULL;
+    }
 
     current = tree->root;
     parent = 0;
@@ -69,10 +74,10 @@ RB_Node *rb_insert(RB_Tree *tree, T data)
         current = compLT(data, current->data) ? current->left : current->right;
     }
 
-    if ((x = malloc(sizeof(*x))) == 0)
+    if ((x = malloc(sizeof(*x))) == NULL)
     {
-        printf("insufficient memory (insertNode)\n");
-        return (0);
+        fprintf(stderr, "insufficient memory (rb_insert)\n");
+        return NULL;
     }
     x->data = data;
     x->parent = parent;
@@ -97,5 +102,9 @@ RB_Node *rb_insert(RB_Tree *tree, T data)
     }
 
     insertFixup(tree, x);
+    if (tree->root != &tree->nil)
+    {
+        tree->root->parent = NULL;
+    }
     return (x);
 }

@@ -1,7 +1,12 @@
-#include "../rb_tree.h"
+#include "rb_tree_internal.h"
 
-void rotateLeft(RB_Tree *tree, RB_Node *x)
+void rb_rotate_left(RB_Tree *tree, RB_Node *x)
 {
+    if (!tree || !x || x == &tree->nil || x->right == &tree->nil)
+    {
+        return;
+    }
+
     RB_Node *y = x->right;
 
     x->right = y->left;
@@ -36,8 +41,13 @@ void rotateLeft(RB_Tree *tree, RB_Node *x)
     }
 }
 
-void rotateRight(RB_Tree *tree, RB_Node *x)
+void rb_rotate_right(RB_Tree *tree, RB_Node *x)
 {
+    if (!tree || !x || x == &tree->nil || x->left == &tree->nil)
+    {
+        return;
+    }
+
     RB_Node *y = x->left;
 
     x->left = y->right;

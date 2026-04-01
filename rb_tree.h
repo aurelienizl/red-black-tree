@@ -107,7 +107,7 @@ RB_Node *rb_insert(RB_Tree *tree, T data);
 /**
  * @brief Delete a node from the tree
  * @param tree Tree from which the node will be deleted
- * @param data Data of the node to delete
+ * @param z Pointer to the node to delete
  * @return (void)
  * @note This function does not free the data stored in the node
  * @note The user is expected to call findNode before calling this function, in
@@ -124,30 +124,12 @@ void rb_delete(RB_Tree *tree, RB_Node *z);
  */
 RB_Node *rb_find(RB_Tree *tree, T data);
 
-// Utils
-
-/**
- * @brief This function rotates the tree to the left from the given node
- * @param tree Tree to rotate
- * @param x Node from which the tree will be rotated
- * @return (void)
- */
-void rotateLeft(RB_Tree *tree, RB_Node *x);
-
-/**
- * @brief This function rotates the tree to the right from the given node
- * @param tree Tree to rotate
- * @param x Node from which the tree will be rotated
- * @return (void)
- */
-void rotateRight(RB_Tree *tree, RB_Node *x);
-
 /**
  * @brief This function writes the tree in the dot format in the given file
  * @param tree Tree to write
  * @param filename Name of the file in which the tree will be written
  * @return (void)
  */
-void rb_todot(RB_Tree *tree, char *filename);
+void rb_todot(RB_Tree *tree, const char *filename);
 
 #endif // RB_TREE_H
